@@ -3,6 +3,7 @@ import cors from 'cors'
 require('dotenv').config()
 import { dbConnection } from './database/config';
 import auth from './routes/auth'
+import events from './routes/events'
 
 
 const app = express();
@@ -23,6 +24,8 @@ app.use( express.json() );
 
 //Rutas
 app.use('/api/auth', auth );
+//Events
+app.use('/api/events', events )
 
 
 app.listen( PORT , () => {
