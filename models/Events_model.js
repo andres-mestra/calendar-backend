@@ -25,7 +25,13 @@ const EventoShema = Schema({
     required: true,
   }
 
-
 })
+
+EventoShema.method('toJSON', function() {
+  const { __v, _id, ...object } = this.toObject();
+  object.id = _id;
+
+  return object;
+});
 
 export const Evento = model('Evento', EventoShema )
