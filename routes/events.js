@@ -13,7 +13,7 @@ import { isDate } from "../helpers/isDate";
 const router = Router();
 
 //En todas las peticiones se debe validar token 
-router.use( validarJWT )
+router.use(validarJWT)
 
 router.get('/',
   getEventos
@@ -22,15 +22,21 @@ router.get('/',
 
 router.post('/',
   [
-    check('title','El titulo es obligatorio').not().isEmpty(),
-    check('start', 'Fecha de inicio es obligatoria').custom( isDate ),
-    check('end', 'Fecha de finalización es obligatoria').custom( isDate ),
+    check('title', 'El titulo es obligatorio').not().isEmpty(),
+    check('start', 'Fecha de inicio es obligatoria').custom(isDate),
+    check('end', 'Fecha de finalización es obligatoria').custom(isDate),
     validarCampos,
   ],
   crearEvento,
 )
 
 router.put('/:id',
+  [
+    check('title', 'El titulo es obligatorio').not().isEmpty(),
+    check('start', 'Fecha de inicio es obligatoria').custom(isDate),
+    check('end', 'Fecha de finalización es obligatoria').custom(isDate),
+    validarCampos,
+  ],
   actualizarEvento,
 )
 
