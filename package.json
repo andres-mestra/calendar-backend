@@ -8,7 +8,7 @@
     "clean": "rm -rf dist && mkdir dist",
     "build-babel": "babel lib -d dist --copy-files",
     "build": "yarn run clean && yarn run build-babel",
-    "start": "node ./dist/index.js"
+    "start": "yarn run build && node ./dist/index.js"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.10",
