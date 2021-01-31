@@ -3,8 +3,10 @@ import { Evento } from "../models/Events_model";
 
 
 export const getEventos = async (req, res = response, next) => {
+  
+  const userUid = req.uid;
 
-  const eventos = await Evento.find()
+  const eventos = await Evento.find({ user: userUid })
     .populate('user', 'name')
 
   return res.json({
