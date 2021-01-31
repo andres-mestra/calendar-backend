@@ -8,7 +8,7 @@ export const crearUsuario = async (req, res = response) => {
   try {
 
     let usuario = await Usuario.findOne({ email });
-    if( usuario ){
+    if (usuario) {
       return res.status(400).json({
         ok: false,
         msg: 'Un usuario existe con este email'
@@ -17,7 +17,7 @@ export const crearUsuario = async (req, res = response) => {
 
     usuario = new Usuario(req.body);
     //Encriptar contraseña
-    usuario.password = await argon2.hash( password )
+    usuario.password = await argon2.hash(password)
     //Guardar usuario 
     await usuario.save();
 
@@ -36,17 +36,44 @@ export const crearUsuario = async (req, res = response) => {
   }
 }
 
-export const loginUsuario = (req, res = response) => {
+export const loginUsuario = async (req, res = response) => {
 
   const { email, password } = req.body
 
-  res.json({
-    ok: true,
-    msg: 'login',
-    email,
-    password
-  })
+  try {
+
+    const usuario = await Usuario.findOne({ email });
+    if (!usuario) {
+      return res.status(400).json({
+        ok: false,
+        msg: 'El usuario no existe con este email'
+      })
+    }
+    
+    const validPassword = await argon2.verify( usuario.password, password);
+
+    if( !validPassword ){
+      return res.status(400).json({
+        ok: false,
+        msg: 'Password incorrecto',
+      })
+    }
+
+    return res.json({
+      ok: true,
+      uid: usuario.id,
+      name: usuario.name,
+    })
+
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({
+      ok: false,
+      msg: 'Por favor hable con el administrador',
+    })
+  }
 }
+
 
 export const revalidarToken = (req, res = response) => {
   res.json({
