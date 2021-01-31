@@ -5,16 +5,21 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon ./lib/index.js -e js --exec babel-node",
-    "babel-build": "babel lib -d dist --copy-files",
-    "start": "node index.js"
+    "clean": "rm -rf dist && mkdir dist",
+    "build-babel": "babel lib -d dist --copy-files",
+    "build": "yarn run clean && yarn run build-babel",
+    "start": "node ./dist/index.js"
   },
   "devDependencies": {
+    "@babel/cli": "^7.12.10",
     "@babel/core": "^7.12.10",
     "@babel/node": "^7.12.10",
+    "@babel/plugin-transform-runtime": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
     "nodemon": "^2.0.7"
   },
   "dependencies": {
+    "@babel/runtime": "^7.12.5",
     "argon2": "^0.27.1",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
