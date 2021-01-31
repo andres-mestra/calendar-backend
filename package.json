@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon ./lib/index.js -e js --exec babel-node",
+    "babel-build": "babel lib -d dist --copy-files",
     "start": "node index.js"
   },
   "devDependencies": {
