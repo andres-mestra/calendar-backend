@@ -1,5 +1,6 @@
 import argon2 from 'argon2';
 import { response } from 'express';
+import { generarJWT } from '../helpers/jwt';
 import { Usuario } from '../models/Usuario_model';
 
 export const crearUsuario = async (req, res = response) => {
@@ -21,10 +22,14 @@ export const crearUsuario = async (req, res = response) => {
     //Guardar usuario 
     await usuario.save();
 
+    //Generar JWT
+    const token = await generarJWT(usuario.id, usuario.name);
+
     return res.status(201).json({
       ok: true,
       uid: usuario.id,
       name: usuario.name,
+      token
     })
 
   } catch (error) {
@@ -59,10 +64,14 @@ export const loginUsuario = async (req, res = response) => {
       })
     }
 
+    //Generar JWT
+    const token = await generarJWT(usuario.id, usuario.name);
+
     return res.json({
       ok: true,
       uid: usuario.id,
       name: usuario.name,
+      token,
     })
 
   } catch (error) {
