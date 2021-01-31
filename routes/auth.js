@@ -6,6 +6,7 @@ import { Router } from 'express';
 import { check } from 'express-validator'
 import { crearUsuario, loginUsuario, revalidarToken } from '../controllers/auth';
 import validarCampos from '../middlewares/validar-campos';
+import { validarJWT } from '../middlewares/validar-jwt';
 
 const router = Router();
 
@@ -31,7 +32,7 @@ router.post('/',
 )
 
 
-router.get('/renew', revalidarToken)
+router.get('/renew', validarJWT, revalidarToken)
 
 
 
