@@ -1,17 +1,26 @@
-import { response } from 'express'; 
-import { validationResult } from 'express-validator';
+import { response } from 'express';
+import { Usuario } from '../models/Usuario_model';
 
-export const crearUsuario = (req, res = response) => {
+export const crearUsuario = async (req, res = response) => {
 
-  const { name, email, password } = req.body
+  //const { name, email, password } = req.body
+  try {
 
-  res.status(201).json({
-    ok:true,
-    msg: 'registro',
-    name,
-    email,
-    password
-  })
+    const usuario = new Usuario(req.body)
+    await usuario.save();
+
+    res.status(201).json({
+      ok: true,
+      msg: 'registro',
+    })
+
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({
+      ok: false,
+      msg: 'Por favor hable con el administrador',
+    })
+  }
 }
 
 export const loginUsuario = (req, res = response) => {
@@ -19,7 +28,7 @@ export const loginUsuario = (req, res = response) => {
   const { email, password } = req.body
 
   res.json({
-    ok:true,
+    ok: true,
     msg: 'login',
     email,
     password
@@ -28,7 +37,7 @@ export const loginUsuario = (req, res = response) => {
 
 export const revalidarToken = (req, res = response) => {
   res.json({
-    ok:true,
+    ok: true,
     msg: 'renew'
   })
 }
