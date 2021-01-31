@@ -3,8 +3,11 @@
  * host + /api/events
  */
 import { Router } from "express";
+import { check } from "express-validator";
 import { validarJWT } from "../middlewares/validar-jwt";
 import { actualizarEvento, crearEvento, eliminarEvento, getEventos } from "../controllers/events";
+import validarCampos from "../middlewares/validar-campos";
+import { isDate } from "../helpers/isDate";
 
 
 const router = Router();
@@ -18,6 +21,12 @@ router.get('/',
 
 
 router.post('/',
+  [
+    check('title','El titulo es obligatorio').not().isEmpty(),
+    check('start', 'Fecha de inicio es obligatoria').custom( isDate ),
+    check('end', 'Fecha de finalización es obligatoria').custom( isDate ),
+    validarCampos,
+  ],
   crearEvento,
 )
 

@@ -12,6 +12,8 @@ export const getEventos = ( req, res = response, next ) => {
 
 export const crearEvento = ( req, res = response, next ) => {
 
+  console.log(req.body)
+
   res.json({
     ok: true,
     msg: 'crearEvento',
