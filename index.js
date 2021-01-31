@@ -1,15 +1,9 @@
 import express from 'express';
 require('dotenv').config()
-import { dbConnection } from './database/config';
 import auth from './routes/auth'
 
 
 const app = express();
-
-//Base de datos
-dbConnection();
-
-
 const PORT = process.env.PORT || 4000;
 
 //Directorio publico
