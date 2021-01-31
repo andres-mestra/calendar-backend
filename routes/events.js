@@ -9,25 +9,24 @@ import { actualizarEvento, crearEvento, eliminarEvento, getEventos } from "../co
 
 const router = Router();
 
+//En todas las peticiones se debe validar token 
+router.use( validarJWT )
+
 router.get('/',
-  validarJWT,
   getEventos
 );
 
 
 router.post('/',
-  validarJWT,
   crearEvento,
 )
 
 router.put('/:id',
-  validarJWT,
   actualizarEvento,
 )
 
 
 router.delete('/:id',
-  validarJWT,
   eliminarEvento,
 )
 
